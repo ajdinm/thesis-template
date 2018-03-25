@@ -1,0 +1,30 @@
+\chapter{Slike test}
+\initial{O}vdje testiram slike, tabelu i reference. Slika \ref{prva}. Slika \ref{druga}. Nesto nesto Cormen \cite{comer1976complexity}.
+
+\begin{figure}
+\minipage{0.45\textwidth}
+  \includegraphics[width=\linewidth]{images/etf-logo.png}
+  \caption{Prva slika u nizu}
+  \label{prva}
+\endminipage\hfill
+\minipage{0.45\textwidth}
+  \includegraphics[width=\linewidth]{images/etf-logo.png}
+  \caption{Druga slika u nizu}
+  \label{druga}
+\endminipage
+\end{figure}
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+boja   & veličina & vektor \\ \hline
+plava  & 130 &  [0, 0, 0, 1]    \\ \hline
+zelena & 71  &  [0, 1, 0, 0]     \\ \hline
+crvena & 72  &  [1, 0, 0, 0]  \\ \hline
+žuta   & 49  &  [0, 0, 1, 0]  \\ \hline
+\end{tabular}
+\caption{Početna distribucija trenirajućeg skupa}
+\label{table:initial_class_distribution}
+\end{table}
+

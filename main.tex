@@ -1,0 +1,173 @@
+\documentclass[a4paper,12pt,leqno,openbib]{memoir}
+
+\usepackage{datetime}
+\usepackage{ifpdf}
+\ifpdf
+\pdfinfo{
+   /Author (<IME AUTORA>)
+   /Title (<TITLE>)
+   /Keywords (One; Two;Three)
+   /CreationDate (D:\pdfdate)
+}
+
+% Better page layout for A4 paper, see memoir manual.
+\settrimmedsize{297mm}{210mm}{*}
+\setlength{\trimtop}{0pt} 
+\setlength{\trimedge}{\stockwidth} 
+\addtolength{\trimedge}{-\paperwidth} 
+\settypeblocksize{634pt}{448.13pt}{*} 
+\setulmargins{4cm}{*}{*} 
+\setlrmargins{*}{*}{1.5} 
+\setmarginnotes{17pt}{51pt}{\onelineskip} 
+\setheadfoot{\onelineskip}{2\onelineskip} 
+\setheaderspaces{*}{2\onelineskip}{*} 
+\checkandfixthelayout
+
+\usepackage{fouriernc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{blindtext}
+
+\newcommand*{\BeginNoToc}{%
+  \addtocontents{toc}{%
+    \edef\protect\SavedTocDepth{\protect\the\protect\value{tocdepth}}%
+  }%
+  \addtocontents{toc}{%
+    \protect\setcounter{tocdepth}{-10}%
+  }%
+}
+\newcommand*{\EndNoToc}{%
+  \addtocontents{toc}{%
+    \protect\setcounter{tocdepth}{\protect\SavedTocDepth}%
+  }%
+}
+
+
+\usepackage{lettrine}
+\newcommand{\initial}[1]{%
+	\lettrine[lines=3,lhang=0.33,nindent=0em]{
+		\color{gray}
+     		{\textsc{#1}}}{}}
+
+\widowpenalty=1000
+\clubpenalty=1000
+
+\usepackage{calc,soul,fourier}
+\makeatletter 
+\newlength\dlf@normtxtw 
+\setlength\dlf@normtxtw{\textwidth} 
+\newsavebox{\feline@chapter} 
+\newcommand\feline@chapter@marker[1][4cm]{%
+	\sbox\feline@chapter{% 
+		\resizebox{!}{#1}{\fboxsep=1pt
+			\colorbox{gray}{\color{white}\thechapter}% 
+		}}%
+		\rotatebox{90}{% 
+			\resizebox{%
+				\heightof{\usebox{\feline@chapter}}+\depthof{\usebox{\feline@chapter}}}% 
+			{!}{\scshape\so\@chapapp}}\quad%
+		\raisebox{\depthof{\usebox{\feline@chapter}}}{\usebox{\feline@chapter}}%
+} 
+\newcommand\feline@chm[1][4cm]{%
+	\sbox\feline@chapter{\feline@chapter@marker[#1]}% 
+	\makebox[0pt][c]{% aka \rlap
+		\makebox[1cm][r]{\usebox\feline@chapter}%
+	}}
+\makechapterstyle{daleifmodif}{
+	\renewcommand\chapnamefont{\normalfont\Large\scshape\raggedleft\so} 
+	\renewcommand\chaptitlefont{\normalfont\Large\bfseries\scshape} 
+	\renewcommand\chapternamenum{} \renewcommand\printchaptername{} 
+	\renewcommand\printchapternum{\null\hfill\feline@chm[2.5cm]\par} 
+	\renewcommand\afterchapternum{\par\vskip\midchapskip} 
+	\renewcommand\printchaptertitle[1]{\color{gray}\chaptitlefont\raggedleft ##1\par}
+} 
+\makeatother 
+\chapterstyle{daleifmodif}
+
+\usepackage{lipsum}
+\usepackage{import}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+
+% My caption style
+\newcommand{\mycaption}[2][\@empty]{
+	\captionnamefont{\scshape} 
+	\changecaptionwidth
+	\captionwidth{0.9\linewidth}
+	\captiondelim{.\:} 
+	\indentcaption{0.75cm}
+	\captionstyle[\centering]{}
+	\setlength{\belowcaptionskip}{10pt}
+	\ifx \@empty#1 \caption{#2}\else \caption[#1]{#2}
+}
+%
+% My subcaption style
+\newcommand{\mysubcaption}[2][\@empty]{
+	\subcaptionsize{\small}
+	\hangsubcaption
+	\subcaptionlabelfont{\rmfamily}
+	\sidecapstyle{\raggedright}
+	\setlength{\belowcaptionskip}{10pt}
+	\ifx \@empty#1 \subcaption{#2}\else \subcaption[#1]{#2}
+}
+%
+%An initial of the very first character of the content
+\usepackage{lettrine}
+
+\addto\captionsenglish{\renewcommand{\figurename}{Slika}}
+\newcommand{\clearemptydoublepage}{\newpage{\thispagestyle{empty}\cleardoublepage}}
+
+\setsecnumdepth{subsection}
+\maxsecnumdepth{subsubsection}
+
+\begin{document}
+ 
+\frontmatter
+\pagenumbering{roman}
+%
+\input{frontmatter/title}
+\clearemptydoublepage
+%
+\input{frontmatter/declaration}
+\clearemptydoublepage
+%
+\input{frontmatter/abstract}
+\clearemptydoublepage
+
+\renewcommand{\contentsname}{Sadržaj}
+\renewcommand{\listfigurename}{Lista slika}
+\renewcommand{\listtablename}{Lista tabela}
+\renewcommand{\chaptername}{Poglavlje}
+\renewcommand{\bibname}{Reference}
+\renewcommand{\appendixtocname}{Prilozi}
+\renewcommand{\appendixname}{Prilog}
+\maxtocdepth{subsection}
+
+\tableofcontents
+
+\BeginNoToc
+\newpage
+\listoffigures
+\newpage
+\listoftables
+
+\EndNoToc
+
+
+\mainmatter
+\input{chapters/1}
+\input{chapters/2}
+
+\appendix
+\import{appendices/}{A.tex}
+\clearemptydoublepage
+
+
+\bibliographystyle{ieeetr}
+\bibliographystyle{ieeetr}
+\bibliography{refs}
+\clearemptydoublepage
+
+\end{document}
